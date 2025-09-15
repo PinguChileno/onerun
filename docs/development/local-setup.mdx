@@ -1,0 +1,291 @@
+---
+title: "Local Setup"
+description: "Complete guide for setting up OneRun development environment"
+---
+
+This guide covers setting up a complete OneRun development environment for contributing to the platform. For just running OneRun, see the [Quick Start Guide](/quickstart).
+
+## Prerequisites
+
+- **Node.js** LTS v22+ and **pnpm** for the frontend
+- **Python** 3.11+ and **uv** for the backend and workflows
+- **Docker** and **Docker Compose** for services
+- **Git** for version control
+
+## Repository Structure
+
+```
+onerun/
+├── app/                    # React frontend application
+├── api/                    # Python FastAPI backend
+│   └── worker/            # Python Temporal workflows
+├── python-sdk/            # Python SDK for workers
+├── docker/                # Docker configurations
+└── docs/                  # Documentation (this site)
+```
+
+## Development Environment Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/onerun-ai/onerun.git
+cd onerun
+```
+
+### 2. Start Core Services
+
+Start the Temporal server (required for workflow orchestration):
+
+```bash
+# Start Temporal server
+cd docker/temporal
+docker compose up -d
+```
+
+<Note>
+For PostgreSQL, you can either install it locally or use a Docker container for development.
+</Note>
+
+## Frontend Development
+
+The OneRun web application is built with Next.js, React, and TypeScript.
+
+### Setup
+
+```bash
+cd app
+pnpm install
+```
+
+### Configuration
+
+Create environment file:
+
+```bash
+cp .env.example .env.local
+```
+
+Update `.env.local` with the following configuration:
+
+```bash
+# API - Backend service endpoint
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
+
+# Database - PostgreSQL connection
+DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/postgres
+
+# Better Auth Configuration
+BETTER_AUTH_URL=http://localhost:3000/api/auth
+BETTER_AUTH_SECRET=your-super-secret-with-at-least-32-characters-long
+BETTER_AUTH_TRUSTED_ORIGINS=http://localhost:3001
+BETTER_AUTH_JWT_ISSUER=http://localhost:3000
+BETTER_AUTH_JWT_AUDIENCE=http://localhost:3001
+BETTER_AUTH_JWT_EXPIRATION_TIME=1h
+BETTER_AUTH_DISABLE_SIGNUP=false
+```
+
+**Better Auth Variables:**
+- `BETTER_AUTH_SECRET`: Must be at least 32 characters long for security
+- `BETTER_AUTH_URL`: The auth endpoint URL for your Next.js app
+- `BETTER_AUTH_TRUSTED_ORIGINS`: Comma-separated list of allowed origins
+- `BETTER_AUTH_JWT_*`: JWT configuration for token handling
+- `BETTER_AUTH_DISABLE_SIGNUP`: Set to `true` to disable new user registration
+
+### Development Server
+
+```bash
+pnpm run dev
+```
+
+The app will be available at `http://localhost:5173` with hot reload enabled.
+
+### Key Technologies
+
+- **Next.js** - React framework with built-in routing and server-side rendering
+- **React 18** - UI framework with hooks and context
+- **TypeScript** - Type safety and better developer experience
+- **Tailwind CSS** - Utility-first styling
+- **shadcn/ui** - UI component library built on Radix UI
+- **Better Auth** - Authentication and session management
+- **React Query** - Data fetching and caching
+- **Biome** - Fast linting and formatting tool
+
+### Development Commands
+
+```bash
+# Start development server
+pnpm run dev
+
+# Build for production
+pnpm run build
+
+# Start production server
+pnpm run start
+
+# Linting (check only)
+pnpm run lint
+
+# Linting with auto-fix
+pnpm run lint:write
+
+# Format code (check only)
+pnpm run format
+
+# Format code with auto-fix
+pnpm run format:write
+```
+
+### Project Structure
+
+```
+app/
+├── src/
+│   ├── app/              # Next.js App Router pages and layouts
+│   │   ├── (auth)/       # Authentication pages (grouped route)
+│   │   ├── (private)/    # Protected pages (grouped route)
+│   │   └── api/          # API routes
+│   ├── components/       # Shared UI components (shadcn/ui)
+│   ├── data/            # Data access layer and schemas
+│   ├── hooks/           # Custom React hooks
+│   ├── lib/             # Utility functions and configurations
+│   ├── providers/       # Context providers
+│   ├── stores/          # State management (Zustand)
+│   ├── styles/          # Global styles and CSS
+│   └── middleware.ts    # Next.js middleware for auth/routing
+├── public/              # Static assets
+│   └── assets/          # Images, icons, etc.
+└── package.json         # Dependencies and scripts
+```
+
+## Backend Development
+
+The OneRun API is built with Python, FastAPI, and SQLAlchemy.
+
+### Setup
+
+```bash
+cd api
+uv sync
+```
+
+### Configuration
+
+Create environment file:
+
+```bash
+cp .env.example .env
+```
+
+Update `.env` with the following configuration:
+
+```bash
+# App
+HOST=127.0.0.1
+PORT=3001
+
+# Logging
+LOG_LEVEL=DEBUG
+
+# Database
+DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/postgres
+
+# Auth
+AUTH_API_KEY=a-secret-with-at-least-32-characters-long
+AUTH_JWKS_URL=http://localhost:3000/api/auth/jwks
+AUTH_JWT_ISSUER=http://localhost:3000
+AUTH_JWT_AUDIENCE=http://localhost:3001
+AUTH_JWT_ALGORITHM=EdDSA
+
+# Temporal
+TEMPORAL_ADDRESS=localhost:7233
+TEMPORAL_NAMESPACE=default
+
+# Anthropic 
+ANTHROPIC_API_KEY=your-anthropic-api-key
+```
+
+**Key Variables:**
+- `HOST/PORT`: Server binding configuration
+- `DATABASE_URL`: PostgreSQL connection string
+- `AUTH_API_KEY`: API authentication secret (must be 32+ characters)
+- `AUTH_JWKS_URL`: JWT key endpoint from Next.js app
+- `TEMPORAL_ADDRESS`: Temporal server connection
+- `ANTHROPIC_API_KEY`: AI model API key
+
+### Development Server
+
+```bash
+# Development server with auto-reload
+uv run main.py --api --dev
+
+# Production server
+uv run main.py --api
+
+# Start both API and worker
+uv run main.py --api --worker
+```
+
+The API will be available at `http://localhost:3001`.
+
+### Key Technologies
+
+- **FastAPI** - Modern Python web framework with automatic OpenAPI docs
+- **SQLAlchemy** - ORM for database operations and migrations
+- **Pydantic** - Data validation and serialization
+- **Better-Auth** - Authentication integration
+- **Temporal** - Workflow orchestration client
+- **Uvicorn** - ASGI server for development and production
+
+### Development Commands
+
+```bash
+# Start development server
+uv run main.py --api --dev
+
+# Start production server  
+uv run main.py --api
+
+# Run database migrations
+uv run alembic upgrade head
+
+# Rollback database migrations
+uv run alembic downgrade -1
+```
+
+### Project Structure
+
+```
+api/
+├── src/
+│   ├── main.py           # FastAPI application entry point
+│   ├── auth.py           # Authentication logic
+│   ├── temporal.py       # Temporal client configuration
+│   ├── routers/          # API endpoint definitions
+│   ├── types/            # Pydantic request/response models
+│   ├── services/         # Business logic layer
+│   ├── db/               # Database models and connection
+│   ├── worker/           # Temporal workflows and activities
+│   └── utils/            # Helper functions and utilities
+├── alembic/              # Database migration files
+├── main.py               # Application entry point with CLI
+├── Makefile              # Development commands
+└── pyproject.toml        # Python dependencies and configuration
+```
+
+## Next Steps
+
+After setting up both frontend and backend:
+
+1. **Run both services** - Start the Next.js frontend and FastAPI backend simultaneously
+2. **Set up your first project** - Follow the [Quick Start Guide](/quickstart) to create a project and agent
+3. **Explore the codebase** - Review the [Architecture](/development/architecture) to understand system design
+4. **Create a worker** - See [Worker Examples](/concepts/workers) to implement your AI agent
+
+<Note>
+Make sure both PostgreSQL and Temporal services are running before starting the frontend and backend applications.
+</Note>
+
+<Tip>
+The frontend development server will proxy API requests to the backend, so CORS is handled automatically during development.
+</Tip>

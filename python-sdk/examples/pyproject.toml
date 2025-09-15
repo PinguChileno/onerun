@@ -1,0 +1,19 @@
+[project]
+name = "examples"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13.1"
+dependencies = [
+    "langchain>=0.3.27",
+    "langchain-anthropic>=0.3.19",
+    "onerun",
+    "python-dotenv>=1.1.1",
+]
+
+[tool.uv]
+# Prevent uv commands from building the package by default
+package = false
+
+[tool.uv.sources]
+onerun = { path = ".." }

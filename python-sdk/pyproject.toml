@@ -1,0 +1,41 @@
+[project]
+name = "onerun"
+version = "0.1.0"
+description = "OneRun python SDK"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    {name = "OneRun.ai"},
+]
+license = {text = "MIT"}
+dependencies = [
+  "apscheduler==4.0.0a6",
+  "fastapi>=0.116.1",
+  "httpx>=0.28.1",
+  "pydantic>=2.11.7",
+  "uvicorn>=0.35.0",
+]
+
+[project.urls]
+Homepage = "https://onerun.ai"
+Repository = "https://github.com/onerun-ai/onerun"
+
+[build-system]
+requires = ["hatchling==1.26.3", "hatch-fancy-pypi-readme"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = ["src/*"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/onerun"]
+
+[tool.hatch.build.targets.sdist]
+# Basically everything except hidden files/directories (such as .github, .devcontainers, .python-version, etc)
+include = ["/*.lock", "/*.md", "/mypy.ini", "examples/*", "src/*"]
+
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"

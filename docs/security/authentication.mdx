@@ -1,0 +1,78 @@
+---
+title: "Authentication"
+description: "How to securely access OneRun's platform and API"
+---
+
+OneRun uses Better-Auth to provide secure authentication for accessing the platform and API. Authentication ensures that only authorized users can create projects, run simulations, and access evaluation results.
+
+## Overview
+
+Authentication in OneRun is required for all platform interactions. Whether you're using the web interface or making API calls, you'll need to authenticate to access your projects, agents, simulations, and results.
+
+## Authentication Methods
+
+### Email and Password
+The primary authentication method uses email and password credentials:
+
+- **Sign Up**: Create a new account with your email address
+- **Sign In**: Access your existing account with email and password
+- **Password Reset**: Recover access if you forget your password *(coming soon)*
+
+### Social Login (Coming Soon)
+Social login integration is planned and will be available soon to provide more convenient authentication options.
+
+<Info>
+Social login providers will be added in upcoming releases.
+</Info>
+
+## Session Management
+
+OneRun manages authentication sessions securely:
+
+- **Session Duration**: Sessions remain active for extended periods with automatic renewal
+- **Secure Cookies**: Authentication state is stored in secure, HTTP-only cookies
+- **Auto Logout**: Inactive sessions are automatically logged out for security
+
+## API Authentication
+
+When using the OneRun API directly, authentication is handled through:
+
+- **Session Cookies**: Web applications can use existing browser sessions
+- **API Keys**: Programmatic access uses API keys (implementation details in API reference)
+
+<Warning>
+Always keep your authentication credentials secure. Never share passwords or API keys in code repositories or unsecured locations.
+</Warning>
+
+## Security Features
+
+OneRun implements several security best practices:
+
+- **Password Security**: Strong password requirements and secure hashing
+- **Rate Limiting**: Protection against brute force attacks *(coming soon)*
+- **Session Security**: Secure session tokens with proper expiration
+
+<Tip>
+Use a strong, unique password for your OneRun account to ensure maximum security for your evaluation data.
+</Tip>
+
+## Troubleshooting
+
+Common authentication issues and solutions:
+
+**Cannot Sign In**
+- Verify your email and password are correct
+- Check if your account needs email verification
+- Try password reset if you've forgotten your credentials
+
+**Session Expired**
+- Sign in again to refresh your session
+- Clear browser cookies if you encounter persistent issues
+
+**API Access Issues**
+- Ensure you're using the correct API authentication method
+- Check that your API keys are valid and properly configured
+
+<Note>
+For additional help with authentication issues, contact support at the email provided in the navigation.
+</Note>

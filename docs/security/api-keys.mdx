@@ -1,0 +1,158 @@
+---
+title: "API Keys"
+description: "Managing API keys for programmatic access to OneRun"
+---
+
+API keys provide secure programmatic access to OneRun's platform, allowing you to integrate agent evaluations into your existing workflows, CI/CD pipelines, and automated testing systems.
+
+## Overview
+
+API keys enable machine-to-machine authentication for OneRun's API without requiring interactive login sessions. They're essential for:
+
+- **Automated Testing**: Running simulations as part of your deployment pipeline
+- **Integration Scripts**: Connecting OneRun to other tools and platforms
+- **Batch Operations**: Managing multiple agents or simulations programmatically
+- **Monitoring Systems**: Automated evaluation of agent performance
+
+## Creating API Keys
+
+Currently, API keys must be manually generated and configured in your OneRun deployment's environment variables. 
+
+### Generate an API Key
+
+Create a secure base64-encoded API key with at least 32 bytes:
+
+```bash
+openssl rand -base64 32
+```
+
+### Configure the API Key
+
+The API key must be configured in **both** OneRun deployments:
+
+#### 1. API Deployment
+
+Add the API key to your OneRun API service environment:
+
+```bash
+# In your API .env file or environment configuration
+AUTH_API_KEY=your-generated-base64-key-here
+```
+
+#### 2. Agent Worker Deployment
+
+Add the same API key to your agent worker service environment:
+
+```bash
+# In your worker .env file or environment configuration  
+ONERUN_API_KEY=your-generated-base64-key-here
+```
+
+<Warning>
+Both the API service (AUTH_API_KEY) and agent worker (ONERUN_API_KEY) must use the same API key value for proper authentication between services.
+</Warning>
+
+<Info>
+Dashboard-based API key management with multiple keys and granular permissions is planned for future releases.
+</Info>
+
+## Using API Keys
+
+### Environment Variables
+
+Store API keys in environment variables:
+
+```bash
+export ONERUN_API_KEY=your-api-key-here
+```
+
+### cURL Example
+
+Include your API key in the `x-api-key` header:
+
+```bash
+curl -H "x-api-key: your-api-key-here" \
+     -X POST \
+     -H "Content-Type: application/json" \
+     -d '{
+       "agent_id": "prod-agent-v1",
+       "scenario": "Daily health check evaluation",
+       "target_conversations": 10
+     }' \
+     https://api.onerun.ai/v1/simulations
+```
+
+### SDK Example
+
+```python
+# Python SDK example
+import os
+from onerun import Client
+
+client = Client(
+    base_url=os.getenv('ONERUN_API_BASE_URL'),
+    api_key=os.getenv('ONERUN_API_KEY')
+)
+simulation = client.simulations.create(
+    agent_id="prod-agent-v1",
+    scenario="Daily health check evaluation",
+    target_conversations=10
+)
+```
+
+## Key Management
+
+### Key Rotation
+
+Since API keys are configured at the deployment level, rotation involves:
+
+1. **Generate New Key**: Create a new secure base64 key using the methods above
+2. **Update Environment**: Replace the API key value in both deployments:
+   - Update `AUTH_API_KEY` in your API service environment
+   - Update `ONERUN_API_KEY` in your agent worker environment
+3. **Restart Services**: Restart both OneRun services to pick up the new key
+4. **Update Clients**: Update any applications using the old key
+
+## API Key Security
+
+### Best Practices
+
+- **Secure Generation**: Use cryptographically secure random generation with at least 32 bytes
+- **Environment Variables**: Store the API key in environment variables, never in code
+- **Regular Rotation**: Generate and deploy new keys periodically for security
+- **Secure Storage**: Use secure key management systems in production environments
+- **Access Control**: Limit access to the environment where the API key is configured
+
+### Storage Guidelines
+
+<CardGroup cols={2}>
+  <Card title="✅ Good Practices" icon="shield-check" color="#10b981">
+    - Environment variables
+    - Secure key management services
+    - Encrypted configuration files
+    - CI/CD secret management
+  </Card>
+  <Card title="❌ Avoid These" icon="shield-exclamation" color="#ef4444">
+    - Hardcoding in source code
+    - Plain text configuration files
+    - Shared documents or chat
+    - Version control repositories
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+### Authentication Errors
+
+**401 Unauthorized**
+- Verify API key is correct and properly formatted
+- Check that the key hasn't been revoked or expired
+- Ensure proper Authorization header format
+
+**403 Forbidden**
+- Confirm the API key has permission for the requested resource
+- Check if the key is associated with the correct project
+
+<Note>
+Complete API documentation and SDK examples are available in the API Reference section.
+</Note>

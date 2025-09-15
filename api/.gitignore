@@ -1,0 +1,14 @@
+# Python-generated files
+__pycache__/
+mypy_cache/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# env files (can opt-in for committing if needed)
+.env

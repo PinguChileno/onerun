@@ -1,0 +1,70 @@
+---
+title: "Agents"
+description: "AI systems that you want to test and evaluate through conversations"
+---
+
+Agents represent the AI systems you want to test and evaluate. Each agent is a specific conversational AI that will participate in simulations to assess its performance across various objectives.
+
+## Overview
+
+In OneRun, agents are the subjects of your testing. They represent customer support bots, sales assistants, technical advisors, or any other conversational AI system you want to evaluate and improve.
+
+## How Agents Work
+
+Agents in OneRun represent the AI systems you want to evaluate. Each agent has a name, description, and belongs to a specific project. 
+
+The agent description is particularly important as it guides persona generation during simulations. Along with the simulation scenario, the agent description helps create realistic personas with appropriate stories and purposes that match the types of people who would interact with your agent.
+
+## Agent Metadata
+
+You can store relevant evaluation context in the agent's metadata:
+
+```json
+{
+  "name": "Customer Support Bot",
+  "description": "AI assistant for handling customer inquiries and support requests",
+  "metadata": {
+    "version": "v2.1.0"
+  }
+}
+```
+
+## Agent Types
+
+<CardGroup cols={2}>
+  <Card title="Customer Support" icon="headset">
+    Handle customer inquiries, complaints, and support requests with empathy and accuracy
+  </Card>
+  <Card title="Sales Assistant" icon="chart-line">
+    Engage prospects, handle objections, and guide customers through purchase decisions
+  </Card>
+  <Card title="Technical Advisor" icon="code">
+    Provide technical guidance, troubleshooting, and documentation assistance
+  </Card>
+  <Card title="Product Guide" icon="compass">
+    Help users navigate features, onboard new customers, and provide usage tips
+  </Card>
+</CardGroup>
+
+## Evaluation Process
+
+Once an agent is created, it can be evaluated through:
+
+1. **Simulation Creation** - Define test scenarios and objectives
+2. **Persona Generation** - Create diverse conversation participants  
+3. **Conversation Execution** - Run interactions between personas and the agent
+4. **Performance Analysis** - Review results against defined objectives
+
+## Best Practices
+
+<Tip>
+  Use clear, descriptive names that identify the agent's primary function or use case.
+</Tip>
+
+<Info>
+  Store important configuration details in the metadata field for easy reference and version tracking.
+</Info>
+
+<Warning>
+  Ensure your agent's capabilities align with the objectives you plan to evaluate against.
+</Warning>

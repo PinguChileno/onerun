@@ -1,0 +1,109 @@
+---
+title: "Objectives"
+description: "Evaluation criteria that define what success looks like for your agents"
+---
+
+Objectives define the evaluation criteria used to measure agent performance during simulations. They specify what success looks like and provide structured guidelines for scoring conversations.
+
+## Overview
+
+Objectives transform subjective conversation quality into measurable metrics. Each objective defines clear criteria for evaluation, allowing you to systematically assess how well your agents meet specific goals.
+
+## How Objectives Work
+
+Objectives define what success looks like for your agent evaluations. Each objective has a clear name (like "Customer Satisfaction") and detailed criteria that explain exactly how to assess performance. 
+
+The criteria should be specific and actionable, providing clear guidance on what constitutes excellent, good, or poor performance. Objectives also include version numbers, allowing you to track changes over time and ensure consistent evaluation as your standards evolve.
+
+## Evaluation Scoring
+
+Objectives use a standardized 0.0 to 1.0 scoring scale:
+
+<CardGroup cols={3}>
+  <Card title="Excellent (0.8 - 1.0)" icon="star" color="#10b981">
+    Outstanding performance that exceeds expectations
+  </Card>
+  <Card title="Good (0.6 - 0.8)" icon="thumbs-up" color="#3b82f6">
+    Solid performance that meets requirements well
+  </Card>
+  <Card title="Needs Improvement (0.0 - 0.6)" icon="thumbs-down" color="#ef4444">
+    Performance that requires attention and improvement
+  </Card>
+</CardGroup>
+
+## Example Objectives
+
+### Customer Satisfaction
+```json
+{
+  "name": "Customer Satisfaction",
+  "criteria": "Evaluate how satisfied the customer feels with the interaction. Consider factors like: issue resolution, agent responsiveness, empathy shown, and overall helpfulness. Score 1.0 for highly satisfied customers who express gratitude or positive feedback. Score 0.5-0.8 for neutral interactions where basic needs are met. Score 0.0-0.4 for frustrated customers or unresolved issues.",
+  "version": 1
+}
+```
+
+### Response Accuracy
+```json
+{
+  "name": "Response Accuracy",
+  "criteria": "Assess the factual accuracy and relevance of the agent's responses. Score 1.0 when all information provided is correct and directly addresses the customer's question. Score 0.5-0.8 for mostly accurate responses with minor gaps. Score 0.0-0.4 for incorrect information, irrelevant responses, or failure to understand the question.",
+  "version": 1
+}
+```
+
+### Professional Communication
+```json
+{
+  "name": "Professional Communication",
+  "criteria": "Evaluate the agent's tone, language, and communication style. Score 1.0 for professional, empathetic, and clear communication that builds rapport. Score 0.5-0.8 for adequate professional communication. Score 0.0-0.4 for unprofessional tone, unclear language, or inappropriate responses.",
+  "version": 1
+}
+```
+
+## Objective Categories
+
+<Accordion title="Communication Quality">
+  - Response Accuracy and Relevance
+  - Clarity and Understanding  
+  - Professional Tone and Language
+  - Empathy and Rapport Building
+</Accordion>
+
+<Accordion title="Problem Resolution">
+  - Issue Resolution Effectiveness
+  - Solution Quality and Completeness
+  - Follow-up and Next Steps
+  - Resource Utilization
+</Accordion>
+
+<Accordion title="Customer Experience">
+  - Overall Customer Satisfaction
+  - Ease of Interaction
+  - Perceived Agent Competence
+  - Trust and Confidence Building
+</Accordion>
+
+<Accordion title="Efficiency & Process">
+  - Response Time and Efficiency
+  - Adherence to Procedures
+  - Information Gathering
+  - Conversation Flow Management
+</Accordion>
+
+## Best Practices
+
+<Tip>
+  Write specific, measurable criteria that provide clear guidance on how to evaluate conversations. Include examples of what different score ranges represent.
+</Tip>
+
+<Info>
+  Use objective versioning to track changes in evaluation criteria over time, allowing you to compare results consistently.
+</Info>
+
+<Warning>
+  Avoid overly complex objectives that try to measure too many things at once. Focus each objective on a single, well-defined aspect of performance.
+</Warning>
+
+<Note>
+  Start with 3-5 key objectives that directly relate to your agent's primary purpose. You can always add more objectives as your evaluation needs evolve.
+</Note>

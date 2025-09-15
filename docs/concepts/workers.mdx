@@ -1,0 +1,108 @@
+---
+title: "Workers"
+description: "External processes that implement your agent's conversation logic and connect to OneRun simulations"
+---
+
+Workers are external processes that implement your agent's actual conversation logic. They connect to OneRun to handle conversations during simulations, acting as the bridge between the OneRun platform and your AI agent implementation.
+
+## Overview
+
+While OneRun manages simulations, personas, and evaluations, Workers are where your agent's intelligence lives. They:
+
+- **Poll for conversations** assigned to your agent during active simulations
+- **Implement conversation logic** using any AI framework or model
+- **Handle turn-by-turn exchanges** between personas and your agent
+- **Run independently** from the OneRun platform as separate processes
+
+## How Workers Function
+
+Workers operate on a polling model:
+
+1. **Poll for Tasks** - Continuously check for new conversations assigned to your agent
+2. **Process Conversations** - Handle the actual conversation logic and AI responses  
+3. **Exchange Messages** - Send and receive messages with personas through the OneRun API
+4. **Manage Concurrency** - Handle multiple conversations simultaneously
+5. **Report Status** - Update conversation status as they progress
+
+## Worker Architecture
+
+### Entrypoint Function
+
+The core of every worker is an entrypoint function that handles individual conversations:
+
+```python
+async def entrypoint(ctx: RunConversationContext) -> None:
+    # Your conversation logic here
+    print(f"Processing conversation: {ctx.conversation_id}")
+    
+    # Access conversation context
+    project_id = ctx.project_id
+    simulation_id = ctx.simulation_id
+    conversation_id = ctx.conversation_id
+```
+
+### Worker Configuration
+
+Workers are configured with essential parameters:
+
+- **Client** - OneRun API client for communication
+- **Project ID** - Which project the worker serves
+- **Agent ID** - Which agent this worker implements
+- **Entrypoint** - The function that handles conversations
+
+### Conversation Flow
+
+Workers manage conversations through a request-response cycle:
+
+1. **Receive Context** - Get conversation details from OneRun
+2. **Generate Response** - Use your AI model to create agent responses
+3. **Send to Persona** - Submit response and receive persona's reply
+4. **Continue or End** - Loop until conversation completes naturally
+
+## Deployment Patterns
+
+### Local Development
+
+Workers run as separate Python processes during development, connecting to your local OneRun instance to poll for assigned conversations.
+
+### Production Deployment
+
+Deploy workers using various patterns:
+- **Docker containers** for consistent environments
+- **Kubernetes pods** for scalability and resilience  
+- **Cloud functions** for serverless execution
+- **Background services** on dedicated servers
+
+### Scaling Considerations
+
+Workers support concurrent conversation processing:
+- **Multiple workers** can serve the same agent for higher throughput
+- **Concurrent tasks** within a single worker for efficiency
+- **Load balancing** happens automatically through the polling mechanism
+
+## Framework Flexibility
+
+Workers can integrate with any AI framework or service:
+- **LangChain** for complex agent workflows
+- **Direct API calls** to AI providers (Anthropic, OpenAI, etc.)
+- **Custom models** and local inference
+- **Hybrid approaches** combining multiple AI services
+
+## Key Concepts
+
+### Polling Model
+Workers continuously poll OneRun for new conversation assignments, ensuring reliable message delivery without requiring persistent connections.
+
+### Stateless Processing
+Each conversation is handled independently, making workers resilient to failures and easy to scale horizontally.
+
+### Framework Agnostic
+Workers act as adapters between OneRun's evaluation system and your existing AI infrastructure, regardless of the underlying technology.
+
+## Getting Started
+
+Ready to implement your first worker? See the [Connecting an Agent](/guides/connecting-an-agent) guide for step-by-step instructions and complete code examples.
+
+<Note>
+Workers can be implemented in any programming language that can make HTTP API calls, though the Python SDK provides the most convenient integration.
+</Note>

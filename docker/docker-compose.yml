@@ -1,0 +1,102 @@
+name: onerun
+
+services:
+  db:
+    container_name: onerun-db
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+  api:
+    container_name: onerun-api
+    image: onerun/onerun-api:latest
+    build: ../api/
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-sSfL",
+          "-o",
+          "/dev/null",
+          "http://localhost:3001/health",
+        ]
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    depends_on:
+      db:
+        condition: service_started
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      HOST: 0.0.0.0
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      TEMPORAL_ADDRESS: temporal:7233
+      TEMPORAL_NAMESPACE: default
+      AUTH_JWKS_URL: http://app:3000/api/auth/jwks
+      AUTH_JWT_ISSUER: http://app:3000
+      AUTH_JWT_AUDIENCE: http://api:3001
+      AUTH_JWT_ALGORITHM: EdDSA
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+    networks:
+      - default
+      - temporal-network
+
+  app:
+    container_name: onerun-app
+    image: onerun/onerun-app:latest
+    build: ../app/
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-sSfL",
+          "-o",
+          "/dev/null",
+          "http://localhost:3000/health",
+        ]
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    depends_on:
+      db:
+        condition: service_started
+    ports:
+      - "3000:3000"
+    environment:
+      HOSTNAME: 0.0.0.0
+      NEXT_PUBLIC_API_BASE_URL: http://api:3001
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      TEMPORAL_ADDRESS: temporal:7233
+      BETTER_AUTH_URL: http://localhost:3000/api/auth
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      BETTER_AUTH_TRUSTED_ORIGINS: http://api:3001
+      BETTER_AUTH_JWT_ISSUER: http://app:3000
+      BETTER_AUTH_JWT_AUDIENCE: http://api:3001
+      BETTER_AUTH_JWT_EXPIRATION_TIME: 1h
+    networks:
+      - default
+      - temporal-network
+
+volumes:
+  postgres_data:
+
+networks:
+  temporal-network:
+    external: true

@@ -1,0 +1,95 @@
+{
+	"$schema": "https://mintlify.com/docs.json",
+	"theme": "mint",
+	"name": "OneRun.ai",
+	"colors": {
+		"primary": "#0EA64A",
+		"light": "#07C983",
+		"dark": "#15803D"
+	},
+	"favicon": "/favicon.svg",
+	"navigation": {
+		"tabs": [
+			{
+				"tab": "Overview",
+				"groups": [
+					{
+						"group": "Getting Started",
+						"pages": ["index", "use-cases", "quickstart"]
+					},
+					{
+						"group": "How-to Guides",
+						"pages": ["guides/create-a-simulation", "guides/connect-an-agent"]
+					},
+					{
+						"group": "Concepts",
+						"pages": [
+							"concepts/projects",
+							"concepts/agents",
+							"concepts/objectives",
+							"concepts/simulations",
+							"concepts/personas",
+							"concepts/conversations",
+							"concepts/workers"
+						]
+					},
+					{
+						"group": "Security",
+						"pages": ["security/authentication", "security/api-keys"]
+					},
+					{
+						"group": "Development",
+						"pages": ["development/architecture", "development/local-setup"]
+					}
+				]
+			}
+		],
+		"global": {
+			"anchors": [
+				{
+					"anchor": "Book a Call",
+					"href": "https://onerun.ai/book-a-call",
+					"icon": "calendar"
+				},
+				{
+					"anchor": "Community",
+					"href": "https://discord.gg/nZQePupHYE",
+					"icon": "discord"
+				},
+				{
+					"anchor": "GitHub",
+					"href": "https://github.com/onerun-ai/onerun",
+					"icon": "github"
+				}
+			]
+		}
+	},
+	"logo": {
+		"light": "/assets/logo/light.svg",
+		"dark": "/assets/logo/dark.svg"
+	},
+	"navbar": {
+		"links": [
+			{
+				"label": "Email Support",
+				"href": "mailto:support@onerun.ai"
+			}
+		],
+		"primary": {
+			"type": "button",
+			"label": "Book a Call",
+			"href": "https://onerun.ai/book-a-call"
+		}
+	},
+	"contextual": {
+		"options": ["copy"]
+	},
+	"footer": {
+		"socials": {
+			"x": "https://x.com/onerun-ai",
+			"github": "https://github.com/onerun-ai/onerun",
+			"linkedin": "https://linkedin.com/company/onerun-ai",
+			"discord": "https://discord.gg/nZQePupHYE"
+		}
+	}
+}

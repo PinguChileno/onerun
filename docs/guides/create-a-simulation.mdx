@@ -1,0 +1,114 @@
+---
+title: "Create a Simulation"
+description: "Step-by-step guide to setting up and running your first agent evaluation simulation"
+---
+
+This guide walks you through creating and running a complete simulation to evaluate your AI agent's performance. You'll learn how to set up projects, agents, objectives, and launch simulations with generated personas.
+
+## Prerequisites
+
+- OneRun platform running (see [Quick Start](/quickstart) for setup)
+- Access to OneRun web interface
+- Basic understanding of your agent's capabilities
+
+## Step 1: Create a Project
+
+Projects organize all your evaluation work and provide isolation between different agent testing initiatives.
+
+1. **Open OneRun** in your browser
+2. **Sign in** to your account
+3. **Click "New Project"** on the dashboard
+4. **Enter project name**: Choose a descriptive name (e.g., "Customer Support Production" or "Marketing Team Bots")
+5. **Save the project** - you'll be redirected to the project dashboard
+
+<Tip>
+Use project names that identify the business function or environment rather than specific agent versions. This helps organize multiple agents and evaluations within the same business context.
+</Tip>
+
+## Step 2: Define Your Agent
+
+Agents represent the AI system you want to evaluate. The agent configuration helps OneRun understand what your system does and generates appropriate test scenarios.
+
+1. **Navigate to "Agents"** in your project
+2. **Click "Create Agent"**
+3. **Configure agent details**:
+   - **Name**: Your agent's name (e.g., "Support Bot v2.1")
+   - **Description**: Detailed description of what your agent does, its capabilities, and role (e.g., "Friendly customer service agent that handles billing inquiries, processes returns, and provides product information")
+
+4. **Save the agent** - note the Agent ID from the details page (needed for your worker)
+
+<Note>
+The agent description is crucial as OneRun uses it to generate realistic personas and conversation scenarios. Be specific about your agent's capabilities and limitations.
+</Note>
+
+## Step 3: Set Evaluation Objectives
+
+Objectives define what "success" looks like for your agent. They provide the scoring criteria that OneRun uses to evaluate conversation quality.
+
+1. **Go to "Objectives"** in your project
+2. **Click "New Objective"**
+3. **Define success criteria**:
+   - **Name**: Clear objective name (e.g., "Customer Satisfaction")
+   - **Criteria**: Detailed evaluation guidelines (e.g., "Evaluate how satisfied the customer feels with the interaction. Score 1.0 for highly satisfied customers who express gratitude. Score 0.5-0.8 for neutral interactions where basic needs are met. Score 0.0-0.4 for frustrated customers or unresolved issues.")
+
+4. **Add multiple objectives** for comprehensive evaluation:
+   - **Response Accuracy**: How factually correct are the agent's responses?
+   - **Customer Satisfaction**: How satisfied is the customer with the interaction?
+   - **Professional Communication**: Does the agent maintain appropriate tone and language?
+
+<Warning>
+Create specific, measurable objectives. Vague objectives like "good response" make it difficult to evaluate and improve your agent consistently.
+</Warning>
+
+## Step 4: Create a Simulation
+
+Simulations bring everything together - they generate personas, orchestrate conversations, and evaluate results against your objectives.
+
+1. **Navigate to "Simulations"** 
+2. **Click "New Simulation"**
+3. **Configure simulation parameters**:
+   - **Name**: Descriptive name for this test run
+   - **Agent**: Select the agent you created
+   - **Objectives**: Choose which objectives to evaluate
+   - **Scenario Description**: Describe the situations you want to test (e.g., "Customers with billing issues, product returns, and general inquiries")
+   - **Number of Conversations**: Start with 10-20 for initial testing
+   - **Max Turns per Conversation**: Set appropriate limits (3-5 for simple tasks, 10+ for complex scenarios)
+
+## Step 5: Launch the Simulation
+
+With everything configured, you're ready to run your first evaluation.
+
+1. **Review simulation settings** - make sure everything looks correct
+2. **Click "Start Simulation"** - OneRun will begin generating personas and scenarios
+3. **Monitor progress** - you'll see conversations being created and assigned
+4. **Ensure your worker is running** - without a worker, conversations won't proceed
+
+<Steps>
+  <Step title="Persona Generation">
+    OneRun creates diverse personas based on your agent description and scenario
+  </Step>
+  <Step title="Conversation Assignment">
+    Each persona gets assigned to a conversation with your agent
+  </Step>
+  <Step title="Worker Processing">
+    Your worker polls for conversations and handles the agent logic
+  </Step>
+  <Step title="Evaluation">
+    Completed conversations are automatically scored against your objectives
+  </Step>
+</Steps>
+
+## Next Steps
+
+After creating your first simulation:
+
+- **Scale Up**: Run larger simulations with 50+ conversations for statistical significance
+- **Compare Versions**: Use simulations to A/B test agent improvements
+- **Automate Evaluation**: Integrate OneRun into your development pipeline
+- **Share Results**: Use reports to communicate agent performance to stakeholders
+
+<Note>
+Effective agent evaluation is iterative. Use each simulation to learn something new about your agent's capabilities and limitations.
+</Note>
+
+Ready to implement your agent? Check out [Connect an Agent](/guides/connect-an-agent) for detailed worker implementation.

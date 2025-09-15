@@ -1,0 +1,375 @@
+---
+title: "Connect an Agent"
+description: "Step-by-step guide to implementing and connecting your AI agent to OneRun"
+---
+
+This guide shows you how to create and connect your AI agent to OneRun using workers. Workers are external processes that implement your agent's conversation logic and handle interactions with generated personas.
+
+## Prerequisites
+
+- OneRun platform running locally or in production
+- Python 3.11+ with `uv` package manager
+- OneRun Python SDK installed
+- API key and project/agent IDs from OneRun
+
+## Installation
+
+Install the OneRun Python SDK:
+
+```bash
+# Install via uv
+uv add onerun
+
+# Or install via pip
+pip install onerun
+```
+
+## Basic Setup
+
+### 1. Environment Configuration
+
+Create a `.env` file with your OneRun configuration:
+
+```bash
+# OneRun API connection
+ONERUN_API_BASE_URL=http://localhost:3001  # or your production URL
+ONERUN_API_KEY=your-api-key-from-onerun-ui
+
+# Project and Agent IDs (found in OneRun UI)
+ONERUN_PROJECT_ID=your-project-id
+ONERUN_AGENT_ID=your-agent-id
+
+# AI service credentials
+ANTHROPIC_API_KEY=your-anthropic-key
+```
+
+### 2. Basic Worker Structure
+
+Every worker needs these core components:
+
+```python
+import os
+from onerun import Client
+from onerun.connect import RunConversationContext, WorkerOptions, run
+
+# Initialize OneRun client
+client = Client(
+    base_url=os.getenv('ONERUN_API_BASE_URL'),
+    api_key=os.getenv('ONERUN_API_KEY')
+)
+
+async def entrypoint(ctx: RunConversationContext) -> None:
+    """Your agent logic goes here"""
+    print(f"Processing conversation: {ctx.conversation_id}")
+    
+    # Access conversation context
+    project_id = ctx.project_id
+    simulation_id = ctx.simulation_id
+    conversation_id = ctx.conversation_id
+
+if __name__ == "__main__":
+    run(WorkerOptions(
+        client=client,
+        project_id=os.getenv('ONERUN_PROJECT_ID'),
+        agent_id=os.getenv('ONERUN_AGENT_ID'),
+        entrypoint=entrypoint,
+    ))
+```
+
+## Implementation Examples
+
+### Single-Turn Agent
+
+For simple interactions that complete in one exchange:
+
+```python
+import os
+from onerun import Client
+from onerun.connect import RunConversationContext, WorkerOptions, run
+from onerun.types import ResponseInputItemParams, ResponseInputContentParams
+
+client = Client(
+    base_url=os.getenv('ONERUN_API_BASE_URL'),
+    api_key=os.getenv('ONERUN_API_KEY')
+)
+
+async def entrypoint(ctx: RunConversationContext) -> None:
+    """Handle a single-turn conversation between persona and agent."""
+    print(f"Processing conversation: {ctx.conversation_id}")
+
+    # Start conversation with agent greeting
+    persona_response = client.simulations.conversations.responses.create(
+        project_id=ctx.project_id,
+        simulation_id=ctx.simulation_id,
+        conversation_id=ctx.conversation_id,
+        input=[ResponseInputItemParams(
+            type="message",
+            content=[ResponseInputContentParams(
+                type="text",
+                text="Hello! How can I assist you today?",
+            )],
+        )],
+    )
+
+    if persona_response.ended:
+        return
+
+    # Convert persona response to message format
+    messages = []
+    messages.extend([
+        # Convert to your AI framework's message format
+        {"role": "user", "content": item.content[0].text}
+        for item in persona_response.output
+    ])
+
+    # Generate final agent response
+    agent_response = create_agent_response(messages)
+
+    # Send final response to complete the conversation
+    client.simulations.conversations.responses.create(
+        project_id=ctx.project_id,
+        simulation_id=ctx.simulation_id,
+        conversation_id=ctx.conversation_id,
+        input=[ResponseInputItemParams(
+            type="message",
+            content=[ResponseInputContentParams(
+                type="text",
+                text=agent_response,
+            )],
+        )],
+    )
+
+def create_agent_response(messages):
+    """Implement your AI model logic here"""
+    # This is where you'd call your AI model
+    return "I'm here to help! What can I do for you?"
+
+if __name__ == "__main__":
+    run(WorkerOptions(
+        client=client,
+        project_id=os.getenv('ONERUN_PROJECT_ID'),
+        agent_id=os.getenv('ONERUN_AGENT_ID'),
+        entrypoint=entrypoint,
+    ))
+```
+
+### Multi-Turn Agent
+
+For complex conversations that require multiple exchanges:
+
+```python
+import os
+from onerun import Client
+from onerun.connect import RunConversationContext, WorkerOptions, run
+from onerun.types import ResponseInputItemParams, ResponseInputContentParams
+
+client = Client(
+    base_url=os.getenv('ONERUN_API_BASE_URL'),
+    api_key=os.getenv('ONERUN_API_KEY')
+)
+
+async def entrypoint(ctx: RunConversationContext) -> None:
+    """Handle a multi-turn conversation between persona and agent."""
+    print(f"Processing conversation: {ctx.conversation_id}")
+
+    # Initialize conversation history for context
+    history = []
+    
+    # Let the persona start the conversation
+    persona_response = client.simulations.conversations.responses.create(
+        project_id=ctx.project_id,
+        simulation_id=ctx.simulation_id,
+        conversation_id=ctx.conversation_id,
+    )
+    
+    if persona_response.ended:
+        return
+
+    # Add persona's initial message to history
+    history.extend([
+        {"role": "user", "content": item.content[0].text}
+        for item in persona_response.output
+    ])
+    
+    # Continue conversation until persona ends it or reaches max turns
+    while True:
+        # Generate agent response using full conversation history
+        agent_response = create_agent_response(history)
+        
+        # Send agent response and get persona's reply
+        persona_response = client.simulations.conversations.responses.create(
+            project_id=ctx.project_id,
+            simulation_id=ctx.simulation_id,
+            conversation_id=ctx.conversation_id,
+            input=[ResponseInputItemParams(
+                type="message",
+                content=[ResponseInputContentParams(
+                    type="text",
+                    text=agent_response,
+                )],
+            )],
+        )
+        
+        if persona_response.ended:
+            break
+
+        # Add agent response to history
+        history.append({"role": "assistant", "content": agent_response})
+
+        # Add persona's new messages to history
+        history.extend([
+            {"role": "user", "content": item.content[0].text}
+            for item in persona_response.output
+        ])
+
+def create_agent_response(history):
+    """Implement your AI model logic with conversation history"""
+    # This is where you'd call your AI model with full context
+    return "That's interesting. Can you tell me more about that?"
+
+if __name__ == "__main__":
+    run(WorkerOptions(
+        client=client,
+        project_id=os.getenv('ONERUN_PROJECT_ID'),
+        agent_id=os.getenv('ONERUN_AGENT_ID'),
+        entrypoint=entrypoint,
+    ))
+```
+
+## AI Framework Integration
+
+### LangChain Integration
+
+```python
+from langchain_anthropic import ChatAnthropic
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+
+llm = ChatAnthropic(model='claude-4-opus-20250514')
+
+def create_agent_response(history):
+    messages = [SystemMessage(content="You are a helpful assistant")]
+    
+    # Convert history to LangChain message format
+    for msg in history:
+        if msg["role"] == "user":
+            messages.append(HumanMessage(content=msg["content"]))
+        elif msg["role"] == "assistant":
+            messages.append(AIMessage(content=msg["content"]))
+    
+    response = llm.invoke(messages)
+    return response.content
+```
+
+### Direct API Calls
+
+```python
+import anthropic
+
+anthropic_client = anthropic.Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
+
+def create_agent_response(history):
+    # Convert to Anthropic message format
+    messages = []
+    for msg in history:
+        messages.append({
+            "role": msg["role"], 
+            "content": msg["content"]
+        })
+    
+    response = anthropic_client.messages.create(
+        model="claude-4-opus-20250514",
+        max_tokens=1000,
+        system="You are a helpful customer service agent.",
+        messages=messages
+    )
+    return response.content[0].text
+```
+
+## Running Your Worker
+
+### Local Development
+
+```bash
+# Make sure OneRun platform is running
+# Then start your worker
+python your_worker.py
+```
+
+### Production Deployment
+
+Deploy workers as:
+- **Docker containers** for consistent environments
+- **Kubernetes pods** for scalability
+- **Cloud functions** for serverless execution
+- **Background services** on dedicated servers
+
+## Configuration Options
+
+### Environment Variables
+
+```bash
+# Required
+ONERUN_API_BASE_URL=your-onerun-instance-url
+ONERUN_API_KEY=your-api-key
+ONERUN_PROJECT_ID=your-project-id
+ONERUN_AGENT_ID=your-agent-id
+
+# AI Service (choose one or more)
+ANTHROPIC_API_KEY=your-anthropic-key
+OPENAI_API_KEY=your-openai-key
+```
+
+### Worker Options
+
+```python
+WorkerOptions(
+    client=client,                    # OneRun API client
+    project_id="project-123",         # Target project
+    agent_id="agent-456",             # Target agent
+    entrypoint=entrypoint,            # Your conversation handler
+    # Optional: configure concurrency, retry logic, etc.
+)
+```
+
+## Best Practices
+
+<Tip>
+Always implement proper error handling in your entrypoint function to prevent worker crashes from affecting ongoing simulations.
+</Tip>
+
+<Info>
+Use conversation history effectively in multi-turn scenarios to maintain context and provide coherent responses.
+</Info>
+
+<Warning>
+Ensure your AI model responses are deterministic enough for consistent evaluation while still providing realistic conversation variety.
+</Warning>
+
+## Troubleshooting
+
+### Common Issues
+
+**Worker not receiving conversations:**
+- Verify API key and project/agent IDs are correct
+- Check that OneRun platform is running and accessible
+- Ensure agent is properly configured in OneRun UI
+
+**Conversations failing:**
+- Check AI model API keys are valid
+- Verify conversation logic handles all response types
+- Review OneRun logs for error details
+
+**Performance issues:**
+- Consider implementing conversation concurrency
+- Monitor AI model response times
+- Use appropriate worker scaling for load
+
+## Next Steps
+
+- Explore [Worker Concepts](/concepts/workers) for deeper understanding
+- Review the [Architecture](/development/architecture) for system design
+- Check out more examples in the [Python SDK repository](https://github.com/onerun-ai/onerun/tree/main/python-sdk/examples)
+
+<Note>
+Workers can be implemented in any programming language that can make HTTP API calls, though the Python SDK provides the most convenient integration.
+</Note>

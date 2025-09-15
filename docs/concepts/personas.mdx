@@ -1,0 +1,149 @@
+---
+title: "Personas"
+description: "AI-generated conversation participants with unique profiles and characteristics"
+---
+
+Personas are AI-generated individuals who participate in conversations with your agents during simulations. Each persona has unique attributes, personality traits, and behavioral patterns that create realistic and diverse interactions.
+
+## Overview
+
+Personas represent the people your agent will interact with in real-world scenarios. They're automatically generated based on your simulation's scenario and provide the diversity needed for comprehensive agent evaluation.
+
+## How Personas Work
+
+Each persona is automatically generated with a unique profile that includes:
+
+- **Summary** - A brief descriptive label like "Detail-Oriented Analyst" or "Frustrated Long-time Customer"
+- **Story** - Background context that explains their situation and needs
+- **Purpose** - Their specific goal within the simulation scenario
+- **Attributes** - Detailed personality traits, communication style, and behavioral patterns
+
+Personas go through an approval process where you can review and approve them before they participate in conversations. This ensures only realistic, appropriate personas interact with your agent.
+
+## Approval Workflow
+
+<Steps>
+  <Step title="Generation">
+    Personas are automatically generated based on the simulation scenario
+  </Step>
+  <Step title="Review">
+    If auto_approve is false, personas require manual review and approval
+  </Step>
+  <Step title="Approval">
+    Approved personas can participate in conversations
+  </Step>
+  <Step title="Assignment">
+    Approved personas are assigned to conversations with the agent
+  </Step>
+</Steps>
+
+## Approval Status
+
+- **pending**: Persona has been generated and awaits review
+- **approved**: Persona has been approved and can participate in conversations  
+- **rejected**: Persona has been rejected and will not participate
+
+## Example Personas
+
+### Customer Support Scenario
+
+```json
+{
+  "summary": "Frustrated Repeat Customer",
+  "story": "Sarah is a long-time customer who has been dealing with the same billing issue for three weeks. She's contacted support multiple times but hasn't received a satisfactory resolution. She's considering switching to a competitor if this isn't resolved quickly.",
+  "purpose": "Get definitive resolution to recurring billing problem and restore confidence in the service",
+  "attributes": {
+    "age_group": "adult",
+    "education": "Bachelor's degree in Marketing",
+    "occupation": "Marketing Manager at mid-sized company",
+    "economic_status": "Middle class, budget-conscious about recurring charges",
+    "personality_traits": "Detail-oriented, expects accountability, values long-term relationships but has limits on patience",
+    "values": "Fairness, reliability, and transparent communication",
+    "habits": "Takes detailed notes of support interactions, follows up persistently on unresolved issues",
+    "interests": "Digital marketing trends, customer experience optimization",
+    "speech_style": "Direct and business-like, becomes more formal when frustrated",
+    "speech_patterns": "Uses phrases like 'as I mentioned before' and references previous conversations",
+    "typical_behavior": "Methodical problem-solver who escalates when standard processes fail",
+    "stress_triggers": "Feeling ignored or having to repeat information multiple times",
+    "stress_reactions": "Becomes more formal and documents everything in writing"
+  }
+}
+```
+
+```json
+{
+  "summary": "Tech-Savvy New User",
+  "story": "Alex is a software developer who just signed up for the service. He's exploring advanced features and wants to integrate the API into his workflow. He appreciates technical details and comprehensive documentation.",
+  "purpose": "Understand advanced features and get technical implementation guidance",
+  "attributes": {
+    "age_group": "young_adult",
+    "education": "Computer Science degree, self-taught in multiple frameworks",
+    "occupation": "Full-stack developer at a startup",
+    "economic_status": "Good income, invests in tools that improve productivity",
+    "personality_traits": "Analytical, methodical, appreciates efficiency and well-designed systems",
+    "values": "Clean code, thorough documentation, and reliable tools",
+    "habits": "Reads documentation thoroughly before asking questions, tests edge cases",
+    "interests": "Open source projects, API design, developer experience",
+    "speech_style": "Technical and precise, uses industry terminology naturally",
+    "speech_patterns": "Asks specific questions with context, references technical specifications",
+    "typical_behavior": "Explores features systematically, contributes feedback for improvements",
+    "stress_triggers": "Poorly documented APIs, inconsistent behavior, lack of examples",
+    "stress_reactions": "Becomes more detailed in questions, seeks alternative solutions"
+  }
+}
+```
+
+## Persona Generation
+
+Personas are generated automatically based on:
+
+1. **Simulation Scenario** - Provides context for the types of people who would be involved
+2. **Target Diversity** - Ensures varied personality types, technical levels, and communication styles
+3. **Realistic Distribution** - Balances common persona types with edge cases
+
+## Persona Attributes
+
+Persona attributes are structured into several categories:
+
+<Accordion title="Demographics & Background">
+  - **Age Group**: teen, young_adult, adult, or senior
+  - **Education**: Educational background and qualifications
+  - **Occupation**: Current job or profession
+  - **Economic Status**: Financial situation and spending patterns
+</Accordion>
+
+<Accordion title="Psychology & Personality">
+  - **Personality Traits**: Core characteristics and behavioral tendencies
+  - **Values**: Fundamental principles they live by
+  - **Habits**: Specific behavioral patterns that reveal character
+  - **Interests**: Main passions or areas of expertise
+</Accordion>
+
+<Accordion title="Communication Style">
+  - **Speech Style**: Overall approach to conversation and interaction
+  - **Speech Patterns**: Specific patterns with examples of typical phrases
+</Accordion>
+
+<Accordion title="Behavioral Patterns">
+  - **Typical Behavior**: How they act in social situations, work, and daily life
+  - **Stress Triggers**: Situations that create tension for them
+  - **Stress Reactions**: How they cope with or react to stress
+</Accordion>
+
+## Best Practices
+
+<Tip>
+  Review generated personas before approval to ensure they align with your testing goals and represent realistic user types.
+</Tip>
+
+<Info>
+  Persona diversity is automatically managed, but you can reject personas that don't fit your evaluation needs.
+</Info>
+
+<Warning>
+  Approved personas directly impact conversation quality - reject personas that seem unrealistic or inappropriate for your scenario.
+</Warning>
+
+<Note>
+  The approval process allows you to fine-tune the types of interactions your agent will face during evaluation.
+</Note>

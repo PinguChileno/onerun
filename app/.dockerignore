@@ -1,0 +1,17 @@
+# Ignore all .env files
+**/.env
+**/.env.local.*
+
+# Ignore logs
+**/*.log
+
+# Ignore runtime data
+**/node_modules
+**/.next
+**/.coverage
+**/coverage
+
+# Ignore Docker runtime files
+**/.dockerignore
+**/Dockerfile
+**/docker-compose*.yml 

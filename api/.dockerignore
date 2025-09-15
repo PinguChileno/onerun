@@ -1,0 +1,18 @@
+# Ignore all .env files
+**/.env
+**/.env.local.*
+
+# Ignore logs
+**/*.log
+
+# Ignore runtime data
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/.coverage
+**/coverage
+
+# Ignore Docker runtime files
+**/.dockerignore
+**/Dockerfile
+**/docker-compose*.yml 

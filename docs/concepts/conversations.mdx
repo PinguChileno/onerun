@@ -1,0 +1,148 @@
+---
+title: "Conversations"
+description: "Interactive exchanges between agents and personas that form the core of evaluation"
+---
+
+Conversations are the individual interactions between your agents and generated personas during simulations. They represent the actual exchanges that get evaluated against your defined objectives.
+
+## Overview
+
+Each conversation is a structured dialogue between a persona and your agent, containing multiple turns of interaction. These conversations provide the data needed to assess agent performance across various scenarios and objectives.
+
+## How Conversations Work
+
+Each conversation represents a single interaction session between a persona and your agent. Conversations have two important status tracks:
+
+- **Conversation Status** - Tracks the progress of the actual dialogue (pending → in_progress → ended)
+- **Evaluation Status** - Tracks the scoring process (pending → in_progress → completed)
+
+Conversations consist of multiple message exchanges, with each message having a role (system, user, assistant) and content. The system manages turn limits to prevent conversations from running indefinitely.
+
+## Conversation Status
+
+- **pending**: Conversation is created but not yet started
+- **queued**: Conversation is queued for execution
+- **in_progress**: Conversation is actively running with ongoing message exchanges
+- **ended**: Conversation has completed normally
+- **failed**: Conversation encountered errors and could not complete
+
+## Evaluation Status
+
+- **pending**: Conversation completed but evaluation not yet started
+- **queued**: Evaluation is queued for processing
+- **in_progress**: Conversation is being evaluated against objectives
+- **completed**: All evaluations have been completed
+- **failed**: Evaluation process encountered errors
+- **not_applicable**: No evaluation needed for this conversation
+
+## Message Structure
+
+Each conversation consists of multiple messages with different roles:
+- **System messages** - Provide context and setup for the conversation
+- **User messages** - Represent the persona's communication to the agent  
+- **Assistant messages** - Represent the agent's responses
+
+## Evaluation Process
+
+After a conversation completes, it's evaluated against each of the simulation's objectives. Each evaluation includes:
+- A score from 0.0 to 1.0 indicating performance
+- A detailed reason explaining why that score was assigned
+- Reference to the specific objective being measured
+
+## Example Conversation Flow
+
+```json
+{
+  "id": "conv_123",
+  "simulation_id": "sim_456", 
+  "persona_id": "persona_789",
+  "status": "ended",
+  "evaluation_status": "completed",
+  "evaluations": [
+    {
+      "objective_id": "customer_satisfaction",
+      "score": 0.85,
+      "reason": "Customer expressed satisfaction with the resolution and thanked the agent multiple times. Issue was resolved completely."
+    },
+    {
+      "objective_id": "response_accuracy", 
+      "score": 0.92,
+      "reason": "All information provided was accurate and directly addressed the customer's specific concerns about billing."
+    }
+  ]
+}
+```
+
+## Conversation Lifecycle
+
+<Steps>
+  <Step title="Assignment">
+    Conversation is assigned between an approved persona and the agent
+  </Step>
+  <Step title="Initialization">
+    System message establishes context and persona background
+  </Step>
+  <Step title="Exchange">
+    Persona and agent exchange messages within turn limits
+  </Step>
+  <Step title="Completion">
+    Conversation ends naturally or reaches maximum turns
+  </Step>
+  <Step title="Evaluation">
+    Conversation is scored against each simulation objective
+  </Step>
+</Steps>
+
+## Turn Management
+
+Conversations are limited by the `max_turns` setting in the simulation:
+
+- **Turn counting** includes both persona and agent messages
+- **Natural ending** occurs when the persona's needs are satisfied
+- **Turn limit** prevents conversations from running indefinitely
+- **End reasons** track why conversations concluded
+
+## Example Scenarios
+
+<CardGroup cols={2}>
+  <Card title="Support Resolution" icon="check-circle">
+    Customer contacts support about billing issue, agent resolves problem, customer confirms satisfaction
+  </Card>
+  <Card title="Sales Qualification" icon="user-check">
+    Prospect inquires about enterprise features, agent qualifies needs and provides appropriate information
+  </Card>
+  <Card title="Technical Guidance" icon="wrench">
+    Developer needs API integration help, agent provides code examples and documentation links
+  </Card>
+  <Card title="Onboarding Assistance" icon="graduation-cap">
+    New user needs account setup help, agent guides through configuration steps
+  </Card>
+</CardGroup>
+
+## Performance Insights
+
+Conversations provide rich data for analysis:
+
+- **Response patterns** - How agents handle different persona types
+- **Resolution effectiveness** - Which approaches work best for specific issues
+- **Communication quality** - Tone, clarity, and professionalism across interactions  
+- **Efficiency metrics** - Turn count and time to resolution
+- **Edge case handling** - Performance with difficult or unusual requests
+
+## Best Practices
+
+<Tip>
+  Monitor conversation status during simulations to identify any issues with agent responses or persona behavior.
+</Tip>
+
+<Info>
+  Review sample conversations before large-scale evaluations to ensure they represent realistic interactions.
+</Info>
+
+<Warning>
+  Pay attention to conversations that fail or reach maximum turns - they may indicate agent limitations or configuration issues.
+</Warning>
+
+<Note>
+  Use evaluation scores and reasons to identify specific areas where your agent excels or needs improvement.
+</Note>

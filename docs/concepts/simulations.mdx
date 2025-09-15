@@ -1,0 +1,138 @@
+---
+title: "Simulations"
+description: "Test scenarios where agents interact with personas to evaluate performance"
+---
+
+Simulations are comprehensive test scenarios where your AI agents engage in conversations with generated personas to evaluate performance across defined objectives.
+
+## Overview
+
+A simulation orchestrates multiple conversations between your agent and AI-generated personas based on a specific scenario. Each simulation has clear goals, constraints, and success criteria that guide the evaluation process.
+
+## How Simulations Work
+
+Simulations bring together an agent, a scenario, and evaluation objectives to create comprehensive testing environments. You define:
+
+- **The scenario context** that guides all conversations
+- **Target numbers** for personas and conversations you want to generate
+- **Turn limits** to prevent conversations from running too long
+- **Approval settings** to control persona quality
+- **Objectives** that define what success looks like
+
+The simulation then orchestrates the entire evaluation process from persona generation through final scoring.
+
+## Simulation Lifecycle
+
+<Steps>
+  <Step title="Configuration">
+    Set up simulation parameters, define scenario, and select objectives for evaluation
+  </Step>
+  <Step title="Persona Generation">
+    Create AI-generated personas with diverse profiles and characteristics
+  </Step>
+  <Step title="Approval Process">
+    Review and approve generated personas (if auto_approve is false)
+  </Step>
+  <Step title="Conversation Assignment">
+    Assign conversations between approved personas and the agent
+  </Step>
+  <Step title="Conversation Execution">
+    Run conversations with turn limits and scenario context
+  </Step>
+  <Step title="Evaluation">
+    Score completed conversations against defined objectives
+  </Step>
+  <Step title="Analysis">
+    Review results and performance metrics
+  </Step>
+</Steps>
+
+## Status Tracking
+
+Simulations progress through several states as they execute:
+
+- **pending**: Simulation created but not yet started
+- **queued**: Simulation is queued for execution
+- **in_progress**: Personas are being generated or conversations are running  
+- **completed**: All target conversations have been finished and evaluated
+- **failed**: Simulation encountered errors and stopped
+- **canceled**: Simulation was manually canceled
+- **canceling**: Simulation is in the process of being canceled
+- **expired**: Simulation exceeded its time limit
+
+## Example Simulation
+
+```json
+{
+  "name": "Customer Support Stress Test",
+  "scenario": "High-volume customer support during a system outage affecting order processing",
+  "agent_id": "customer-support-bot-v2",
+  "target_personas": 20,
+  "target_conversations": 50,
+  "max_turns": 15,
+  "auto_approve": false,
+  "objectives": [
+    {
+      "id": "customer-satisfaction",
+      "name": "Customer Satisfaction",
+      "criteria": "Evaluate overall customer satisfaction..."
+    },
+    {
+      "id": "issue-resolution",
+      "name": "Issue Resolution",
+      "criteria": "Assess how effectively issues are resolved..."
+    }
+  ]
+}
+```
+
+## Scenario Design
+
+Effective scenarios provide clear context for conversations:
+
+<CardGroup cols={2}>
+  <Card title="Support Scenarios" icon="headset">
+    "Customer experiencing login issues after recent password reset"
+  </Card>
+  <Card title="Sales Scenarios" icon="chart-line">
+    "Prospective customer interested in enterprise pricing for team of 50"
+  </Card>
+  <Card title="Technical Scenarios" icon="code">
+    "Developer struggling with API integration and receiving timeout errors"
+  </Card>
+  <Card title="Onboarding Scenarios" icon="rocket">
+    "New user setting up their first project and configuring team permissions"
+  </Card>
+</CardGroup>
+
+## Planning Your Simulation
+
+### Determine Conversation Volume
+- **Quick Test**: 10-20 conversations for basic functionality validation
+- **Standard Evaluation**: 50-100 conversations for reliable metrics
+- **Comprehensive Assessment**: 200+ conversations for statistical significance
+
+### Set Realistic Targets
+- Consider your agent's response time when setting conversation targets
+- Factor in evaluation time if using manual scoring
+- Plan for potential failures or retries
+- Ensure persona count supports your target conversation volume
+
+### Choose Turn Limits
+- **Short Interactions**: 3-5 turns for quick queries
+- **Standard Support**: 10-15 turns for typical problem resolution
+- **Complex Issues**: 20+ turns for detailed troubleshooting
+
+## Best Practices
+
+<Tip>
+  Start with smaller simulations (10-20 conversations) to test your configuration before scaling up to larger evaluations.
+</Tip>
+
+<Warning>
+  Ensure your target personas count is reasonable for your target conversations. Too few personas may result in unrealistic conversation patterns.
+</Warning>
+
+<Info>
+  Use descriptive scenario text that provides clear context for both persona generation and conversation flow.
+</Info>
